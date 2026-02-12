@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GG-ASIA | Streamer Bio</title>
+    <!-- Menambahkan favicon menggunakan logo-gg1.png -->
+    <link rel="icon" type="image/png" href="logo-gg1.png">
     <style>
         :root {
             --blue: #0154c8;
@@ -26,7 +28,6 @@
             align-items: center;
             min-height: 100vh;
             padding: 40px 20px;
-            /* Efek background grid halus */
             background-image: radial-gradient(circle at 2px 2px, rgba(235, 217, 8, 0.1) 1px, transparent 0);
             background-size: 40px 40px;
         }
@@ -37,25 +38,48 @@
             text-align: center;
         }
 
-        /* Logo Interactive Styling */
-        .logo-wrapper {
-            position: relative;
+        /* 3D Flip Logo Container */
+        .logo-scene {
             width: 260px;
             height: 260px;
             margin: 0 auto 35px;
+            perspective: 1000px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .logo-display {
+        .logo-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Kelas untuk memicu animasi balik */
+        .logo-card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .logo-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-face img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 0 15px rgba(235, 217, 8, 0.3));
         }
 
-        .logo-wrapper:hover {
-            transform: scale(1.08) rotate(-2deg);
+        /* Bagian belakang logo */
+        .logo-back {
+            transform: rotateY(180deg);
         }
 
         /* Slogan Styling */
@@ -164,9 +188,16 @@
 <body>
 
     <div class="container">
-        <!-- Logo Section -->
-        <div class="logo-wrapper" id="logoToggle">
-            <img src="logo-gg1.png" id="mainLogo" class="logo-display" alt="GG-ASIA Logo">
+        <!-- 3D Flip Logo Section -->
+        <div class="logo-scene" id="logoScene">
+            <div class="logo-card" id="logoCard">
+                <div class="logo-face logo-front">
+                    <img src="logo-gg1.png" alt="GG-ASIA Logo Front">
+                </div>
+                <div class="logo-face logo-back">
+                    <img src="logo-gg2.png" alt="GG-ASIA Logo Back">
+                </div>
+            </div>
         </div>
 
         <div>
@@ -176,10 +207,8 @@
         <!-- Links Container -->
         <div class="links-container">
             <a href="#" class="link-item featured">Enter Stream</a>
-            <a href="#" class="link-item">Gaming Setup</a>
             <a href="#" class="link-item">Donation / Tip Jar</a>
             <a href="#" class="link-item">Discord Server</a>
-            <a href="#" class="link-item">Steam Profile</a>
         </div>
 
         <!-- Social Icons -->
@@ -196,26 +225,19 @@
     </div>
 
     <script>
-        const logoImg = document.getElementById('mainLogo');
-        const logoContainer = document.getElementById('logoToggle');
-        let currentLogo = 1;
+        const logoCard = document.getElementById('logoCard');
+        const logoScene = document.getElementById('logoScene');
 
-        // Fungsi switch logo interaktif
-        function toggleLogo() {
-            if (currentLogo === 1) {
-                logoImg.src = 'logo-gg2.png';
-                currentLogo = 2;
-            } else {
-                logoImg.src = 'logo-gg1.png';
-                currentLogo = 1;
-            }
+        // Fungsi animasi membalik
+        function flipLogo() {
+            logoCard.classList.toggle('is-flipped');
         }
 
-        // Ganti saat klik
-        logoContainer.addEventListener('click', toggleLogo);
+        // Membalik saat logo diklik
+        logoScene.addEventListener('click', flipLogo);
         
-        // Ganti otomatis setiap 5 detik agar tetap dinamis
-        setInterval(toggleLogo, 5000);
+        // Membalik otomatis setiap 4 detik agar terlihat hidup
+        setInterval(flipLogo, 4000);
     </script>
 </body>
 </html>
